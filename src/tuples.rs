@@ -11,12 +11,22 @@ struct FourTuple {
 }
 
 impl FourTuple {
-    fn point(x: f64, y: f64, z: f64) -> FourTuple {
-        FourTuple { x, y, z, w: 1f64 }
+    fn point<T: Into<f64>>(x: T, y: T, z: T) -> FourTuple {
+        FourTuple {
+            x: x.into(),
+            y: y.into(),
+            z: z.into(),
+            w: 1f64,
+        }
     }
 
-    fn vector(x: f64, y: f64, z: f64) -> FourTuple {
-        FourTuple { x, y, z, w: 0f64 }
+    fn vector<T: Into<f64>>(x: T, y: T, z: T) -> FourTuple {
+        FourTuple {
+            x: x.into(),
+            y: y.into(),
+            z: z.into(),
+            w: 0f64,
+        }
     }
 
     fn is_point(obj: &FourTuple) -> bool {
@@ -73,36 +83,33 @@ mod test {
 
     #[test]
     fn test_equality() {
-        assert_eq!(
-            FourTuple::point(1f64, 1f64, 1f64),
-            FourTuple::point(1f64, 1f64, 1f64)
-        )
+        assert_eq!(FourTuple::point(1, 1, 1), FourTuple::point(1, 1, 1))
     }
 
     #[test]
     fn test_is_point() {
-        let point = FourTuple::point(0f64, 0f64, 0f64);
+        let point = FourTuple::point(0, 0, 0);
         assert!(FourTuple::is_point(&point));
     }
 
     #[test]
     fn test_add_point_and_vector() {
-        let expected = FourTuple::point(3f64, 3f64, 3f64);
-        let actual = FourTuple::point(1f64, 1f64, 1f64) + FourTuple::vector(2f64, 2f64, 2f64);
+        let expected = FourTuple::point(3, 3, 3);
+        let actual = FourTuple::point(1, 1, 1) + FourTuple::vector(2, 2, 2);
         assert_eq!(expected, actual);
     }
 
     #[test]
     fn test_subtract_vector_from_point() {
-        let expected = FourTuple::point(1f64, 1f64, 1f64);
-        let actual = FourTuple::point(3f64, 3f64, 3f64) - FourTuple::vector(2f64, 2f64, 2f64);
+        let expected = FourTuple::point(1, 1, 1);
+        let actual = FourTuple::point(3, 3, 3) - FourTuple::vector(2, 2, 2);
         assert_eq!(expected, actual);
     }
 
     #[test]
     fn test_negate_vector() {
-        let expected = FourTuple::vector(-1f64, -1f64, -1f64);
-        let actual = -FourTuple::vector(1f64, 1f64, 1f64);
+        let expected = FourTuple::vector(-1, -1, -1);
+        let actual = -FourTuple::vector(1, 1, 1);
         assert_eq!(expected, actual);
     }
 }
