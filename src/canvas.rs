@@ -26,19 +26,28 @@ pub fn write_pixel(canvas: &mut Canvas, x: usize, y: usize, color: Color) {
 }
 
 pub fn canvas_to_ppm(canvas: &Canvas) -> String {
-    // let mut buf = BufWriter::new(Vec::new());
     let mut buf = String::new();
+    let mut line = String::new();
 
     buf.push_str("P3\n");
     buf.push_str(format!("{} {}\n", canvas.width, canvas.height).as_str());
     buf.push_str("255\n");
 
-    // TODO: Clamp line length to 70 chars. Be sure to end with a newline
     for y in 0..canvas.width {
         for x in 0..canvas.height {
             let (r, g, b) = pixel_at(canvas, x, y).as_rgb();
-            buf.push_str(format!("{} {} {}\n", r, g, b).as_str());
+            line.push_str(format!("{} {} {}\n", r, g, b).as_str());
+            if line.len() > 60 {
+                buf.push_str(line.as_str());
+                line = String::new();
+            }
         }
+    }
+    buf.push_str(line.as_str());
+
+    let last_char = buf.chars().last().unwrap();
+    if last_char != '\n' {
+        buf.push_str("\n");
     }
     buf
 }
