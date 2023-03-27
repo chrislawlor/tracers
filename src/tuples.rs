@@ -4,14 +4,14 @@ const EPSILON: f64 = 0.00001;
 
 #[derive(Debug, PartialEq)]
 pub struct FourTuple {
-    x: f64,
-    y: f64,
-    z: f64,
-    w: f64,
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+    pub w: f64,
 }
 
 impl FourTuple {
-    fn new<T: Into<f64>>(x: T, y: T, z: T, w: T) -> Self {
+    pub fn new<T: Into<f64>>(x: T, y: T, z: T, w: T) -> Self {
         Self {
             x: x.into(),
             y: y.into(),
@@ -20,7 +20,7 @@ impl FourTuple {
         }
     }
 
-    fn point<T: Into<f64>>(x: T, y: T, z: T) -> Self {
+    pub fn point<T: Into<f64>>(x: T, y: T, z: T) -> Self {
         Self {
             x: x.into(),
             y: y.into(),
@@ -29,7 +29,7 @@ impl FourTuple {
         }
     }
 
-    fn vector<T: Into<f64>>(x: T, y: T, z: T) -> Self {
+    pub fn vector<T: Into<f64>>(x: T, y: T, z: T) -> Self {
         Self {
             x: x.into(),
             y: y.into(),
